@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just For You ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Cormorant Garamond',serif;
+  background:linear-gradient(180deg,#ffdde1,#ee9ca7);
+  color:#3b003b;
+  overflow-x:hidden;
+}
+
+section{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:80px 20px;
+}
+
+h1,h2{
+  font-family:'Playfair Display',serif;
+  text-align:center;
+}
+
+input[type="file"]{
+  margin:12px;
+  font-size:1rem;
+}
+
+button{
+  padding:12px 26px;
+  border:none;
+  border-radius:30px;
+  background:#ff4f8b;
+  color:white;
+  cursor:pointer;
+  font-size:1rem;
+}
+
+/* reveal */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1.4s ease;
+  max-width:760px;
+  text-align:center;
+  font-size:1.6rem;
+}
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* image */
+.image-box{
+  margin-top:40px;
+  width:270px;
+  height:380px;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 20px 40px rgba(255,105,135,.4);
+  animation:float 4s ease-in-out infinite;
+}
+.image-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-16px)}
+}
+
+/* question */
+#questionBox{
+  width:320px;
+  height:150px;
+  position:relative;
+  margin-top:30px;
+}
+
+#yesBtn{
+  position:absolute;
+  left:30px;
+  bottom:20px;
+}
+
+#noBtn{
+  position:absolute;
+  right:30px;
+  bottom:20px;
+  background:#999;
+}
+
+/* heart yes */
+#heartYes{
+  width:70px;
+  height:70px;
+  background:#ff2f6d;
+  position:relative;
+  transform:rotate(-45deg);
+  margin:30px auto 0;
+  cursor:pointer;
+}
+#heartYes::before,
+#heartYes::after{
+  content:"";
+  width:70px;
+  height:70px;
+  background:#ff2f6d;
+  border-radius:50%;
+  position:absolute;
+}
+#heartYes::before{top:-35px;left:0}
+#heartYes::after{left:35px;top:0}
+
+#noFinal{
+  margin-top:20px;
+  padding:10px 22px;
+  border-radius:30px;
+  background:#bbb;
+  opacity:.4;
+  pointer-events:none;
+}
+
+/* celebration */
+#celebrate{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle,#ff6aa2,#4a0033);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+  z-index:999;
+}
+
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation:rise 5s linear infinite;
+}
+@keyframes rise{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-110vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- IMAGE UPLOAD -->
+<section id="start">
+  <h1>One Small Setup 💌</h1>
+  <p style="font-size:1.3rem;text-align:center">
+    Bas do tasveeren chuno…<br>
+    baaki kahaani apne aap likh jaayegi.
+  </p>
+
+  <input type="file" id="img1Input" accept="image/*">
+  <input type="file" id="img2Input" accept="image/*">
+
+  <button onclick="begin()">Continue ❤️</button>
+</section>
+
+<section id="s1" style="display:none">
+  <h1>Hey Dear Reader ❤️</h1>
+  <p class="reveal">
+    Tumhari ek muskaan ka asar kuch aisa hai,<br>
+    ke mere din apni fikr chhod kar tum par aa rukte hain.<br><br>
+    Tum khwaab nahi ho,<br>
+    tum wo haqeeqat ho jise dil har roz jeena chahta hai.
+  </p>
+  <div class="image-box">
+    <img id="photo1">
+  </div>
+</section>
+
+<section id="s2" style="display:none">
+  <h1>Just You 🌸</h1>
+  <p class="reveal">
+    Tum haste hue kahin bhaag rahi ho,<br>
+    aur main bas ye soch raha hoon —<br><br>
+    kuch log pal nahi,<br>
+    poori kahaani ban jaate hain.
+  </p>
+  <div class="image-box">
+    <img id="photo2">
+  </div>
+</section>
+
+<section id="final" style="display:none">
+  <h1>Dear Reader, will you be Parth’s Valentine? 💖</h1>
+
+  <div id="questionBox">
+    <button id="yesBtn">YES</button>
+    <button id="noBtn" tabindex="0">NO</button>
+  </div>
+
+  <div id="secondStage" style="display:none;text-align:center;">
+    <p class="reveal show">
+      NO chahte ho toh website hi kyun kholi,<br>
+      aur yahan tak aaye?<br><br>
+      Jab aa hi gaye ho,<br>
+      toh dil me bhi chale aao…<br>
+      aur dekh lo kya hota hai ❤️
+    </p>
+
+    <div id="heartYes"></div>
+    <div id="noFinal">NO</div>
+  </div>
+</section>
+
+<div id="celebrate">
+  <h2>Bas ab tum ❤️</h2>
+  <p style="max-width:700px;text-align:center;font-size:1.6rem">
+    Tumne haan sirf ek lafz me nahi,<br>
+    poore dil se kaha hai.<br><br>
+    Aur ab jo shuru hua hai,<br>
+    wo sirf ek Valentine nahi…<br>
+    Parth ki sabse pasandida kahaani hai 😌💖
+  </p>
+</div>
+
+<script>
+let noUsed=false;
+
+function begin(){
+  const img1 = img1Input.files[0];
+  const img2 = img2Input.files[0];
+
+  if(img1) photo1.src = URL.createObjectURL(img1);
+  if(img2) photo2.src = URL.createObjectURL(img2);
+
+  start.style.display="none";
+  s1.style.display=s2.style.display=final.style.display="flex";
+}
+
+/* reveal */
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(el.getBoundingClientRect().top < window.innerHeight-120)
+      el.classList.add('show');
+  });
+});
+
+/* NO mouse dodge */
+document.addEventListener('mousemove',e=>{
+  const r=noBtn.getBoundingClientRect();
+  const d=Math.hypot(
+    e.clientX-(r.left+r.width/2),
+    e.clientY-(r.top+r.height/2)
+  );
+  if(d<65){
+    noBtn.style.transform=
+      `translate(${Math.random()*120-60}px,${Math.random()*80-40}px)`;
+  }
+});
+
+/* NO keyboard once */
+noBtn.addEventListener('keydown',e=>{
+  if(!noUsed && (e.key==="Enter"||e.key===" ")){
+    e.preventDefault();
+    noUsed=true;
+    noBtn.style.display="none";
+    yesBtn.style.display="none";
+    secondStage.style.display="block";
+  }
+});
+
+/* FINAL YES */
+yesBtn.onclick=celebrateNow;
+heartYes.onclick=celebrateNow;
+
+function celebrateNow(){
+  celebrate.style.display="flex";
+  setInterval(()=>{
+    const h=document.createElement('div');
+    h.className='heart';
+    h.innerHTML='💖';
+    h.style.left=Math.random()*100+'vw';
+    h.style.bottom='0';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+  },250);
+}
+</script>
+
+</body>
+</html>
